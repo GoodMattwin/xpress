@@ -1,14 +1,15 @@
 const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
+const db = new sqlite3.Database('./database.sqlite');
 
 db.serialize(() => {
   db.run('DROP TABLE IF EXISTS Artist');
   db.run(`CREATE TABLE IF NOT EXISTS Artist (
-            id INTEGER PRIMARY KEY NOT NULL,
+            id INTEGER NOT NULL,
             name TEXT NOT NULL,
             date_of_birth TEXT NOT NULL,
             biography TEXT NOT NULL,
-            is_currently_employed INTEGER DEFAULT 1
+            is_currently_employed INTEGER DEFAULT 1,
+            PRIMARY KEY(id)
         );`, err => {
     if (err) {
       console.log('There was an error creating the Artist database: ', err);
@@ -19,9 +20,10 @@ db.serialize(() => {
 
   db.run('DROP TABLE IF EXISTS Series');
   db.run(`CREATE TABLE IF NOT EXISTS Series (
-            id INTEGER PRIMARY KEY NOT NULL,
+            id INTEGER NOT NULL,
             name TEXT NOT NULL,
-            description TEXT NOT NULL
+            description TEXT NOT NULL,
+            PRIMARY KEY(id)
         );`, err => {
     if (err) {
       console.log('There was an error creating the Series database: ', err);
